@@ -53,7 +53,7 @@ interface NavbarProps {
 export function Navbar({ className }: NavbarProps) {
   const Theme = useTheme();
   return (
-    <header className="flex h-16 items-center justify-between border-b bg-background px-6">
+    <header className="flex h-16 items-center justify-between border-b bg-sidebar px-6">
       {/* Left side - Breadcrumb */}
       <div className="flex items-center">
         {/* <Breadcrumb /> */}
