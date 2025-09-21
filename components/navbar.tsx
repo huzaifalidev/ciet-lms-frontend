@@ -11,7 +11,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { Bell, Search, User, LogOut, Settings, Moon, Sun } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useTheme } from "next-themes";
@@ -57,7 +56,13 @@ export function Navbar({ className }: NavbarProps) {
     <header className="flex h-16 items-center justify-between border-b bg-background px-6">
       {/* Left side - Breadcrumb */}
       <div className="flex items-center">
-        <Breadcrumb />
+        {/* <Breadcrumb /> */}
+        <div className="flex flex-col">
+          <span className="text-lg font-bold">CIET School</span>
+          <span className="text-xs text-sidebar-foreground/70">
+            Learning Management System
+          </span>
+        </div>
       </div>
 
       {/* Right side - Search, Theme Toggle, Notifications, User Menu */}

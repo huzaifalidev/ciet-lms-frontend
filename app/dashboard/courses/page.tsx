@@ -1,11 +1,24 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,8 +26,17 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { BookOpen, Plus, Search, MoreHorizontal, Users, Calendar, TrendingUp } from "lucide-react"
+} from "@/components/ui/dropdown-menu";
+import {
+  BookOpen,
+  Plus,
+  Search,
+  MoreHorizontal,
+  Users,
+  Calendar,
+  TrendingUp,
+} from "lucide-react";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 
 const courses = [
   {
@@ -67,29 +89,29 @@ const courses = [
     startDate: "2024-02-01",
     endDate: "2024-04-15",
   },
-]
+];
 
 export default function CoursesPage() {
-  const [searchTerm, setSearchTerm] = useState("")
+  const [searchTerm, setSearchTerm] = useState("");
 
   const filteredCourses = courses.filter(
     (course) =>
       course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      course.description.toLowerCase().includes(searchTerm.toLowerCase()),
-  )
+      course.description.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300"
+        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
       case "completed":
-        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300"
+        return "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300";
       case "draft":
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
       default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300"
+        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -97,7 +119,22 @@ export default function CoursesPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Courses</h1>
-          <p className="text-muted-foreground">Manage and monitor your course offerings</p>
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                <BreadcrumbSeparator />
+              </BreadcrumbItem>
+              <BreadcrumbItem>
+                <BreadcrumbLink href="/dashboard/courses">
+                  Courses
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+          <p className="text-muted-foreground">
+            Manage and monitor your course offerings
+          </p>
         </div>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
@@ -119,21 +156,29 @@ export default function CoursesPage() {
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Courses</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Active Courses
+            </CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{courses.filter((c) => c.status === "active").length}</div>
+            <div className="text-2xl font-bold">
+              {courses.filter((c) => c.status === "active").length}
+            </div>
             <p className="text-xs text-muted-foreground">Currently running</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Students</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Students
+            </CardTitle>
             <Users className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{courses.reduce((sum, course) => sum + course.students, 0)}</div>
+            <div className="text-2xl font-bold">
+              {courses.reduce((sum, course) => sum + course.students, 0)}
+            </div>
             <p className="text-xs text-muted-foreground">Across all courses</p>
           </CardContent>
         </Card>
@@ -144,7 +189,11 @@ export default function CoursesPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {Math.round(courses.reduce((sum, course) => sum + course.progress, 0) / courses.length)}%
+              {Math.round(
+                courses.reduce((sum, course) => sum + course.progress, 0) /
+                  courses.length
+              )}
+              %
             </div>
             <p className="text-xs text-muted-foreground">Overall completion</p>
           </CardContent>
@@ -188,7 +237,9 @@ export default function CoursesPage() {
                   <TableCell>
                     <div className="space-y-1">
                       <div className="font-medium">{course.title}</div>
-                      <div className="text-sm text-muted-foreground">{course.description}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {course.description}
+                      </div>
                     </div>
                   </TableCell>
                   <TableCell>
@@ -198,20 +249,31 @@ export default function CoursesPage() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge className={getStatusColor(course.status)}>{course.status}</Badge>
+                    <Badge className={getStatusColor(course.status)}>
+                      {course.status}
+                    </Badge>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center space-x-2">
                       <div className="w-16 bg-gray-200 rounded-full h-2 dark:bg-gray-700">
-                        <div className="bg-blue-600 h-2 rounded-full" style={{ width: `${course.progress}%` }}></div>
+                        <div
+                          className="bg-blue-600 h-2 rounded-full"
+                          style={{ width: `${course.progress}%` }}
+                        ></div>
                       </div>
-                      <span className="text-sm text-muted-foreground">{course.progress}%</span>
+                      <span className="text-sm text-muted-foreground">
+                        {course.progress}%
+                      </span>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="text-sm">
-                      <div>{new Date(course.startDate).toLocaleDateString()}</div>
-                      <div className="text-muted-foreground">to {new Date(course.endDate).toLocaleDateString()}</div>
+                      <div>
+                        {new Date(course.startDate).toLocaleDateString()}
+                      </div>
+                      <div className="text-muted-foreground">
+                        to {new Date(course.endDate).toLocaleDateString()}
+                      </div>
                     </div>
                   </TableCell>
                   <TableCell className="text-right">
@@ -228,7 +290,9 @@ export default function CoursesPage() {
                         <DropdownMenuItem>Edit course</DropdownMenuItem>
                         <DropdownMenuItem>View students</DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem className="text-red-600">Delete course</DropdownMenuItem>
+                        <DropdownMenuItem className="text-red-600">
+                          Delete course
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -239,5 +303,5 @@ export default function CoursesPage() {
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
