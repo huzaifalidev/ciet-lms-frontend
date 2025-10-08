@@ -8,6 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CardContent } from "@/components/ui/card";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import axios from "axios";
+import { config } from "@/config/config";
+import { useRouter } from "next/navigation";
 
 interface LoginFormValues {
   email: string;
@@ -25,17 +28,29 @@ const validationSchema = Yup.object({
 
 export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
 
   const initialValues: LoginFormValues = {
-    email: "",
-    password: "",
+    email: "example@gmail.com",
+    password: "123456",
   };
 
-  const handleSubmit = (values: LoginFormValues) => {
-    if (onSubmit) {
-      onSubmit(values);
-    } else {
-      console.log("Sign in attempt:", values);
+  const handleSubmit = async (
+    values: LoginFormValues,
+    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+  ) => {
+    try {
+      const res = await axios.post(`${config.API_URL}/auth/login`, values);
+      if (res.status === 200) {
+        console.log("Login successful", res.data);
+        window.localStorage.setItem("accessToken", res.data.user.accessToken);
+        window.localStorage.setItem("refreshToken", res.data.user.refreshToken);
+        router.push("/student/dashboard");
+      }
+    } catch (error) {
+      console.error("Login failed", error);
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -46,7 +61,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({ values, handleChange, handleBlur, errors, touched }) => (
+        {({
+          values,
+          handleChange,
+          handleBlur,
+          errors,
+          touched,
+          isSubmitting,
+        }) => (
           <Form className="space-y-4">
             {/* Email */}
             <div className="space-y-2">
@@ -62,9 +84,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={`pl-10 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-                    errors.email && touched.email ? "border-red-500 focus:ring-red-500" : "focus:ring-blue-500"
+                    errors.email && touched.email
+                      ? "border-red-500 focus:ring-red-500"
+                      : "focus:ring-blue-500"
                   }`}
-                  required
                 />
               </div>
               {errors.email && touched.email && (
@@ -86,9 +109,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={`pl-10 pr-10 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-                    errors.password && touched.password ? "border-red-500 focus:ring-red-500" : "focus:ring-blue-500"
+                    errors.password && touched.password
+                      ? "border-red-500 focus:ring-red-500"
+                      : "focus:ring-blue-500"
                   }`}
-                  required
                 />
                 <Button
                   type="button"
@@ -97,7 +121,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
                   className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4 text-muted-foreground" /> : <Eye className="h-4 w-4 text-muted-foreground" />}
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4 text-muted-foreground" />
+                  ) : (
+                    <Eye className="h-4 w-4 text-muted-foreground" />
+                  )}
                 </Button>
               </div>
               {errors.password && touched.password && (
@@ -107,13 +135,17 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 
             {/* Forgot password link */}
             <div className="flex items-center justify-between">
-              <a href="/auth/forgot-password" className="text-sm text-primary hover:underline">
+              <a
+                href="/auth/forgot-password"
+                className="text-sm text-primary hover:underline"
+              >
                 Forgot password?
               </a>
             </div>
 
-            <Button type="submit" className="w-full">
-              Sign In
+            {/* Submit */}
+            <Button type="submit" className="w-full" disabled={isSubmitting}>
+              {isSubmitting ? "Signing In..." : "Sign In"}
             </Button>
           </Form>
         )}

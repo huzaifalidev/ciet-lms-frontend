@@ -11,7 +11,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { Bell, Search, User, LogOut, Settings, Moon, Sun } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useTheme } from "next-themes";
@@ -54,19 +53,20 @@ interface NavbarProps {
 export function Navbar({ className }: NavbarProps) {
   const Theme = useTheme();
   return (
-    <header className="flex h-16 items-center justify-between border-b bg-background px-6">
+    <header className="flex h-16 items-center justify-between border-b bg-sidebar px-6">
       {/* Left side - Breadcrumb */}
       <div className="flex items-center">
-        <Breadcrumb />
+        {/* <Breadcrumb /> */}
+        <div className="flex flex-col">
+          <span className="text-lg font-bold">CIET School</span>
+          <span className="text-xs text-sidebar-foreground/70">
+            Learning Management System
+          </span>
+        </div>
       </div>
 
       {/* Right side - Search, Theme Toggle, Notifications, User Menu */}
       <div className="flex items-center gap-4">
-        {/* Search */}
-        <div className="relative hidden md:block">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder="Search..." className="w-64 pl-10" />
-        </div>
         {/* Notifications */}
         {/* <Button
           onClick={() => console.log("Notifications clicked")}
