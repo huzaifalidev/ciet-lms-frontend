@@ -67,11 +67,6 @@ export function Navbar({ className }: NavbarProps) {
 
       {/* Right side - Search, Theme Toggle, Notifications, User Menu */}
       <div className="flex items-center gap-4">
-        {/* Search */}
-        <div className="relative hidden md:block">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder="Search..." className="w-64 pl-10" />
-        </div>
         {/* Notifications */}
         {/* <Button
           onClick={() => console.log("Notifications clicked")}
