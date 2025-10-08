@@ -13,16 +13,6 @@ import { AuthCardHeader } from "@/components/auth-card-header";
 import Link from "next/link";
 
 export default function RegisterPage() {
-  const handleRegister = (formData: {
-    name: string;
-    email: string;
-    password: string;
-    confirmPassword: string;
-  }) => {
-    // TODO: replace this with API call to register user
-    console.log("Form submitted:", formData);
-  };
-
   return (
     <ThemeProvider
       attribute="class"
@@ -30,7 +20,7 @@ export default function RegisterPage() {
       enableSystem
       disableTransitionOnChange
     >
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-4">
+      <div className="min-h-screen flex items-center justify-center dark:bg-black p-4">
         <div className="absolute top-4 right-4">
           <ThemeToggle />
         </div>
@@ -40,9 +30,7 @@ export default function RegisterPage() {
               title="Create Account"
               description="Join CIET School LMS"
             />
-
-          <RegisterForm onSubmit={handleRegister} />
-
+          <RegisterForm />
           <div className="mt-4 text-center text-sm">
             Already have an account?{" "}
             <Link href="/auth/signin" className="text-primary hover:underline">

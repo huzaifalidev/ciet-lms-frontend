@@ -4,7 +4,8 @@ import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { Suspense } from "react";
 import "./globals.css";
-import {FullScreenLoader} from "@/components/FullScreenLoader";
+import { FullScreenLoader } from "@/components/FullScreenLoader";
+import { Toaster } from "@/components/ui/sonner"; 
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body className={`font-sans ${inter.variable}`}>
         <Suspense fallback={<FullScreenLoader />}>{children}</Suspense>
         <Analytics />
+        <Toaster richColors position="top-right" /> 
       </body>
     </html>
   );
