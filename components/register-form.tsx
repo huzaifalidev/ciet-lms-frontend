@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CardContent } from "@/components/ui/card";
-import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, User, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import { config } from "@/config/config";
@@ -18,7 +18,6 @@ interface RegisterFormValues {
   lastName: string;
   email: string;
   password: string;
-
 }
 
 const validationSchema = Yup.object({
@@ -61,9 +60,11 @@ export const RegisterForm: React.FC = () => {
       setTimeout(() => {
         router.push("/auth/signin");
       }, 4000);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Registration failed:", error);
-      toast.error(error.response.data.msg || "Registration failed. Please try again.");
+      toast.error(
+        error.response.data.msg || "Registration failed. Please try again."
+      );
     } finally {
       setSubmitting(false);
     }
@@ -204,7 +205,11 @@ export const RegisterForm: React.FC = () => {
             {/* Confirm Password */}
 
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Creating Account..." : "Create Account"}
+              {isSubmitting ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                "Create Account"
+              )}
             </Button>
           </Form>
         )}
