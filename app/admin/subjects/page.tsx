@@ -12,6 +12,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+import {
   Table,
   TableBody,
   TableCell,
@@ -36,7 +46,15 @@ import {
   Calendar,
   TrendingUp,
 } from "lucide-react";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 const courses = [
   {
@@ -118,7 +136,7 @@ export default function CoursesPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Courses</h1>
+          <h1 className="text-3xl font-bold tracking-tight">Standards</h1>
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -127,7 +145,7 @@ export default function CoursesPage() {
               </BreadcrumbItem>
               <BreadcrumbItem>
                 <BreadcrumbLink href="/dashboard/courses">
-                  Courses
+                  Standards
                 </BreadcrumbLink>
               </BreadcrumbItem>
             </BreadcrumbList>
@@ -136,20 +154,58 @@ export default function CoursesPage() {
             Manage and monitor your course offerings
           </p>
         </div>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          Create Course
-        </Button>
+        <Drawer>
+          <DrawerTrigger asChild>
+            <Button>
+              <Plus className="mr-2 h-4 w-4" />
+              Create Course
+            </Button>
+          </DrawerTrigger>
+
+          <DrawerContent className="bg">
+            <DrawerHeader>
+              <DrawerTitle>Create New Course</DrawerTitle>
+              <DrawerDescription>
+                Fill out the details below to create a new course.
+              </DrawerDescription>
+            </DrawerHeader>
+
+            {/* Your Create Course form goes here */}
+            <div className="p-4 space-y-4">
+              <div>
+                <Label className="block text-sm font-medium mb-1">Title</Label>
+                <Input
+                  type="text"
+                  className="w-full border border-gray-300 rounded px-3 py-2"
+                  placeholder="Course title"
+                />
+              </div>
+              <div>
+                <Label className="block text-sm font-medium mb-1">
+                  Description
+                </Label>
+                <Textarea placeholder="Course description" />
+              </div>
+            </div>
+
+            <DrawerFooter>
+              <Button>Save</Button>
+              <DrawerClose asChild>
+                <Button className="destructive">Cancel</Button>
+              </DrawerClose>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
       </div>
 
       {/* Stats Cards */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(250px,1fr))]">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Courses</CardTitle>
             <BookOpen className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
-          <CardContent>
+          <CardContent className="mt-0">
             <div className="text-2xl font-bold">{courses.length}</div>
             <p className="text-xs text-muted-foreground">+2 from last month</p>
           </CardContent>
@@ -168,7 +224,7 @@ export default function CoursesPage() {
             <p className="text-xs text-muted-foreground">Currently running</p>
           </CardContent>
         </Card>
-        <Card>
+        {/* <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
               Total Students
@@ -197,7 +253,7 @@ export default function CoursesPage() {
             </div>
             <p className="text-xs text-muted-foreground">Overall completion</p>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
 
       {/* Search and Filters */}
