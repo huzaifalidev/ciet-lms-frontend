@@ -36,26 +36,31 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
     password: "123456",
   };
 
-  const handleSubmit = async (
-    values: LoginFormValues,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  ) => {
-    try {
-      const res = await axios.post(`${config.API_URL}/auth/login`, values);
-      if (res.status === 200) {
-        console.log("Login successful", res.data);
-        window.localStorage.setItem("accessToken", res.data.user.accessToken);
-        window.localStorage.setItem("refreshToken", res.data.user.refreshToken);
-        router.push("/student/dashboard");
-      }
-    } catch (error) {
-      console.error("Login failed", error);
-      toast.error(
-        error.response.data.msg ||
-          "Login failed. Please check your credentials."
-      );
-    } finally {
-      setSubmitting(false);
+  // const handleSubmit = async (
+  //   values: LoginFormValues,
+  //   { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+  // ) => {
+  //   try {
+  //     const res = await axios.post(`${config.API_URL}/auth/login`, values);
+  //     if (res.status === 200) {
+  //       console.log("Login successful", res.data);
+  //       window.localStorage.setItem("accessToken", res.data.user.accessToken);
+  //       window.localStorage.setItem("refreshToken", res.data.user.refreshToken);
+  //       router.push("/student/dashboard");
+  //     }
+  //   } catch (error) {
+  //     console.error("Login failed", error);
+  //     toast.error(
+  //       error.response.data.msg ||
+  //         "Login failed. Please check your credentials."
+  //     );
+  //   } finally {
+  //     setSubmitting(false);
+  //   }
+  // };
+  const handleSubmit = (values: LoginFormValues) => {
+    if (onSubmit) {
+      router.push("/admin/dashboard");
     }
   };
 
