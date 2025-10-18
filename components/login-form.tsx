@@ -7,10 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CardContent } from "@/components/ui/card";
-import { Eye, EyeOff, Mail, Lock } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock, Loader2 } from "lucide-react";
 import axios from "axios";
 import { config } from "@/config/config";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 interface LoginFormValues {
   email: string;
@@ -35,22 +36,31 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
     password: "123456",
   };
 
-  const handleSubmit = async (
-    values: LoginFormValues,
-    { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  ) => {
-    try {
-      const res = await axios.post(`${config.API_URL}/auth/login`, values);
-      if (res.status === 200) {
-        console.log("Login successful", res.data);
-        window.localStorage.setItem("accessToken", res.data.user.accessToken);
-        window.localStorage.setItem("refreshToken", res.data.user.refreshToken);
-        router.push("/student/dashboard");
-      }
-    } catch (error) {
-      console.error("Login failed", error);
-    } finally {
-      setSubmitting(false);
+  // const handleSubmit = async (
+  //   values: LoginFormValues,
+  //   { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
+  // ) => {
+  //   try {
+  //     const res = await axios.post(`${config.API_URL}/auth/login`, values);
+  //     if (res.status === 200) {
+  //       console.log("Login successful", res.data);
+  //       window.localStorage.setItem("accessToken", res.data.user.accessToken);
+  //       window.localStorage.setItem("refreshToken", res.data.user.refreshToken);
+  //       router.push("/student/dashboard");
+  //     }
+  //   } catch (error) {
+  //     console.error("Login failed", error);
+  //     toast.error(
+  //       error.response.data.msg ||
+  //         "Login failed. Please check your credentials."
+  //     );
+  //   } finally {
+  //     setSubmitting(false);
+  //   }
+  // };
+  const handleSubmit = (values: LoginFormValues) => {
+    if (onSubmit) {
+      router.push("/admin/dashboard");
     }
   };
 
@@ -145,7 +155,11 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
 
             {/* Submit */}
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? "Signing In..." : "Sign In"}
+              {isSubmitting ? (
+                <Loader2 className="h-4 w-4 animate-spin" />
+              ) : (
+                "Sign In"
+              )}
             </Button>
           </Form>
         )}
