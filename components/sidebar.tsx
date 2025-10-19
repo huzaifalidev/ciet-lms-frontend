@@ -123,7 +123,7 @@ function MobileSidebar({ items }: Pick<SidebarProps, "items">) {
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden fixed top-4 left-2 z-50"
+          className="md:hidden fixed top-4 left-2 z-200"
           aria-label="Toggle menu"
         >
           <Menu className="h-5 w-5" />
