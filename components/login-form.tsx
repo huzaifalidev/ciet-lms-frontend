@@ -7,78 +7,98 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CardContent } from "@/components/ui/card";
-import { Eye, EyeOff, Mail, Lock, Loader2 } from "lucide-react";
+import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import axios from "axios";
 import { config } from "@/config/config";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
+import { Spinner } from "@/components/ui/spinner";
+import { useAppDispatch, useAppSelector } from "@/redux/store/store";
+import { startLoading, stopLoading } from "@/redux/slices/loading.slice";
 
 interface LoginFormValues {
   email: string;
   password: string;
+  validUsers?: any;
 }
-
-interface LoginFormProps {
-  onSubmit?: (data: LoginFormValues) => void;
-}
-
 const validationSchema = Yup.object({
   email: Yup.string().email("Invalid email").required("Email is required"),
   password: Yup.string().required("Password is required"),
 });
 
-export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
+export const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector((state) => state.loading);
 
-  const initialValues: LoginFormValues = {
-    email: "example@gmail.com",
-    password: "123456",
-  };
+  const handleSubmit = async (values: LoginFormValues) => {
+    dispatch(startLoading());
 
-  // const handleSubmit = async (
-  //   values: LoginFormValues,
-  //   { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
-  // ) => {
-  //   try {
-  //     const res = await axios.post(`${config.API_URL}/auth/login`, values);
-  //     if (res.status === 200) {
-  //       console.log("Login successful", res.data);
-  //       window.localStorage.setItem("accessToken", res.data.user.accessToken);
-  //       window.localStorage.setItem("refreshToken", res.data.user.refreshToken);
-  //       router.push("/student/dashboard");
-  //     }
-  //   } catch (error) {
-  //     console.error("Login failed", error);
-  //     toast.error(
-  //       error.response.data.msg ||
-  //         "Login failed. Please check your credentials."
-  //     );
-  //   } finally {
-  //     setSubmitting(false);
-  //   }
-  // };
-  const handleSubmit = (values: LoginFormValues) => {
-    if (onSubmit) {
-      router.push("/admin/dashboard");
+    try {
+      // Simulate backend delay
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      // Mock valid credentials
+      const validUsers = {
+        "admin@gmail.com": {
+          role: "admin",
+          accessToken: "mock_admin_token",
+          refreshToken: "mock_admin_refresh",
+        },
+        "student@gmail.com": {
+          role: "student",
+          accessToken: "mock_student_token",
+          refreshToken: "mock_student_refresh",
+        },
+      };
+
+      // Check if email exists and password matches
+      const user = validUsers[values.email];
+
+      if (!user || values.password !== "12345678") {
+        toast.error("Invalid email or password");
+        return;
+      }
+
+      // Simulate a mock backend response
+      const res = {
+        status: 200,
+        data: { user },
+      };
+
+      if (res.status === 200) {
+        window.localStorage.setItem("accessToken", user.accessToken);
+        window.localStorage.setItem("refreshToken", user.refreshToken);
+
+        toast.success("Login successful!");
+
+        // Redirect based on role
+        if (user.role === "student") {
+          router.push("/student/dashboard");
+        } else if (user.role === "admin") {
+          router.push("/admin/dashboard");
+        }
+      }
+    } catch (error) {
+      console.error("Login failed", error);
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      dispatch(stopLoading());
     }
   };
 
   return (
     <CardContent>
       <Formik
-        initialValues={initialValues}
+        initialValues={{
+          email: "",
+          password: "",
+        }}
         validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
-        {({
-          values,
-          handleChange,
-          handleBlur,
-          errors,
-          touched,
-          isSubmitting,
-        }) => (
+        {({ values, handleChange, handleBlur, errors, touched }) => (
           <Form className="space-y-4">
             {/* Email */}
             <div className="space-y-2">
@@ -93,10 +113,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className={`pl-10 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-                    errors.email && touched.email
-                      ? "border-red-500 focus:ring-red-500"
-                      : "focus:ring-blue-500"
+                  className={`pl-10 ${
+                    errors.email && touched.email ? "border-red-500" : ""
                   }`}
                 />
               </div>
@@ -118,11 +136,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
                   value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className={`pl-10 pr-10 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-                    errors.password && touched.password
-                      ? "border-red-500 focus:ring-red-500"
-                      : "focus:ring-blue-500"
-                  }`}
+                  className="pl-10 pr-10"
                 />
                 <Button
                   type="button"
@@ -154,12 +168,8 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSubmit }) => {
             </div>
 
             {/* Submit */}
-            <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                "Sign In"
-              )}
+            <Button type="submit" className="w-full" disabled={isLoading}>
+              {isLoading ? <Spinner /> : "Sign In"}
             </Button>
           </Form>
         )}

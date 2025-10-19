@@ -7,37 +7,56 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Mail, ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 import { AuthCardHeader } from "@/components/auth-card-header";
+import { Spinner } from "@/components/ui/spinner";
+import { useAppDispatch, useAppSelector } from "@/redux/store/store";
+import { startLoading, stopLoading } from "@/redux/slices/loading.slice";
 
 function ForgotPasswordContent() {
   const [email, setEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector((state) => state.loading);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // TODO: Implement forgot password logic
-    // want to use toast here
-    toast.success(
-      "If this email is registered, you will receive a password reset link shortly."
-    );
-    console.log("Forgot password request:", { email });
-    setIsSubmitted(true);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault(); // ✅ Prevent page reload first
+    dispatch(startLoading());
+
+    try {
+      // Simulate backend delay
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      // Mock valid users
+      const validUsers = ["admin@gmail.com", "student@gmail.com"];
+
+      if (!validUsers.includes(email.trim())) {
+        toast.error("User does not exist.");
+        return;
+      }
+
+      // Simulate success response
+      toast.success(
+        "If this email is registered, you will receive a password reset link shortly."
+      );
+
+      console.log("Forgot password request:", { email });
+      setIsSubmitted(true);
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.");
+      console.error("Forgot password error:", error);
+    } finally {
+      dispatch(stopLoading());
+    }
   };
 
   if (isSubmitted) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-4">
+      <div className="min-h-screen flex items-center justify-center dark:bg-black  p-4">
         <div className="absolute top-4 right-4">
           <ThemeToggle />
         </div>
@@ -73,7 +92,7 @@ function ForgotPasswordContent() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-4">
+    <div className="min-h-screen flex items-center justify-center dark:bg-black  p-4">
       <div className="absolute top-4 right-4">
         <ThemeToggle />
       </div>
@@ -101,7 +120,7 @@ function ForgotPasswordContent() {
               </div>
             </div>
             <Button type="submit" className="w-full">
-              Send Reset Link
+              {isLoading ? <Spinner /> : "Send Reset Link"}
             </Button>
           </form>
           <div className="mt-6 text-center">

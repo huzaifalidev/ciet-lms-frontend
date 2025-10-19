@@ -11,52 +11,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Bell, Search, User, LogOut, Settings, Moon, Sun } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { User, LogOut, Settings, Moon, Sun, Router } from "lucide-react";
 import { useTheme } from "next-themes";
-
-// Breadcrumb component
-function Breadcrumb() {
-  const pathname = usePathname();
-  const segments = pathname.split("/").filter(Boolean);
-  const breadcrumbItems = segments.map((segment, index) => {
-    const href = "/" + segments.slice(0, index + 1).join("/");
-    const title = segment.charAt(0).toUpperCase() + segment.slice(1);
-    return { title, href, isLast: index === segments.length - 1 };
-  });
-
-  return (
-    <nav className="flex items-center space-x-1 text-sm text-muted-foreground">
-      {breadcrumbItems.map((item, index) => (
-        <div key={item.href} className="flex items-center">
-          {index > 0 && <span className="mx-2">/</span>}
-          <span
-            className={
-              item.isLast
-                ? "text-foreground font-medium"
-                : "hover:text-foreground"
-            }
-          >
-            {item.title}
-          </span>
-        </div>
-      ))}
-    </nav>
-  );
-}
-
+import { useRouter } from "next/navigation";
 interface NavbarProps {
   className?: string;
   theme?: "light" | "dark";
 }
-
 export function Navbar({ className }: NavbarProps) {
+  const router = useRouter();
   const Theme = useTheme();
   return (
     <header className="flex h-16 items-center justify-between border-b bg-sidebar px-6">
-      {/* Left side - Breadcrumb */}
       <div className="flex items-center">
-        {/* <Breadcrumb /> */}
         <div className="flex flex-col">
           <span className="text-lg font-bold">CIET School</span>
           <span className="text-xs text-sidebar-foreground/70">
@@ -64,8 +31,6 @@ export function Navbar({ className }: NavbarProps) {
           </span>
         </div>
       </div>
-
-      {/* Right side - Search, Theme Toggle, Notifications, User Menu */}
       <div className="flex items-center gap-4">
         {/* Notifications */}
         {/* <Button
@@ -102,14 +67,14 @@ export function Navbar({ className }: NavbarProps) {
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            {/* <DropdownMenuItem>
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
             </DropdownMenuItem>
             <DropdownMenuItem>
               <Settings className="mr-2 h-4 w-4" />
               <span>Settings</span>
-            </DropdownMenuItem>
+            </DropdownMenuItem> */}
             <DropdownMenuItem
               onClick={() =>
                 Theme.setTheme(Theme.theme === "light" ? "dark" : "light")
@@ -124,7 +89,11 @@ export function Navbar({ className }: NavbarProps) {
             </DropdownMenuItem>
 
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                router.push("/auth/signin");
+              }}
+            >
               <LogOut className="mr-2 h-4 w-4" />
               <span>Log out</span>
             </DropdownMenuItem>
