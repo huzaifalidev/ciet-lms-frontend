@@ -8,6 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CardContent } from "@/components/ui/card";
 import { Eye, EyeOff, Lock } from "lucide-react";
+import { Spinner } from "./ui/spinner";
+import { useAppDispatch, useAppSelector } from "@/redux/store/store";
+import { startLoading, stopLoading } from "@/redux/slices/loading.slice";
 
 interface ResetPasswordFormValues {
   password: string;
@@ -19,21 +22,31 @@ interface ResetPasswordFormProps {
 }
 
 const validationSchema = Yup.object({
-  password: Yup.string().min(6, "Password must be at least 6 characters").required("Password is required"),
+  password: Yup.string()
+    .min(6, "Password must be at least 6 characters")
+    .required("Password is required"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref("password")], "Passwords must match")
     .required("Confirm Password is required"),
 });
 
-export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ onSubmit }) => {
+export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({
+  onSubmit,
+}) => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-  const initialValues: ResetPasswordFormValues = { password: "", confirmPassword: "" };
+  const dispatch = useAppDispatch();
+  const { isLoading } = useAppSelector((state) => state.loading);
+  const initialValues: ResetPasswordFormValues = {
+    password: "",
+    confirmPassword: "",
+  };
 
   const handleSubmit = (values: ResetPasswordFormValues) => {
     if (onSubmit) {
+      dispatch(startLoading());
       onSubmit(values);
+      dispatch(stopLoading());
     } else {
       console.log("Password reset attempt:", values);
     }
@@ -41,7 +54,11 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ onSubmit }
 
   return (
     <CardContent>
-      <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={initialValues}
+        validationSchema={validationSchema}
+        onSubmit={handleSubmit}
+      >
         {({ values, handleChange, handleBlur, errors, touched }) => (
           <Form className="space-y-4">
             {/* New Password */}
@@ -52,13 +69,15 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ onSubmit }
                 <Input
                   id="password"
                   name="password"
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? "texrt" : "password"}
                   placeholder="Enter new password"
                   value={values.password}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={`pl-10 pr-10 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-                    errors.password && touched.password ? "border-red-500 focus:ring-red-500" : "focus:ring-blue-500"
+                    errors.password && touched.password
+                      ? "border-red-500 focus:ring-red-500"
+                      : "focus:ring-blue-500"
                   }`}
                   required
                 />
@@ -69,10 +88,16 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ onSubmit }
                   className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <EyeOff className="h-4 w-4 text-muted-foreground" /> : <Eye className="h-4 w-4 text-muted-foreground" />}
+                  {showPassword ? (
+                    <EyeOff className="h-4 w-4 text-muted-foreground" />
+                  ) : (
+                    <Eye className="h-4 w-4 text-muted-foreground" />
+                  )}
                 </Button>
               </div>
-              {errors.password && touched.password && <p className="text-red-500 text-sm">{errors.password}</p>}
+              {errors.password && touched.password && (
+                <p className="text-red-500 text-sm">{errors.password}</p>
+              )}
             </div>
 
             {/* Confirm Password */}
@@ -89,7 +114,9 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ onSubmit }
                   onChange={handleChange}
                   onBlur={handleBlur}
                   className={`pl-10 pr-10 focus:outline-none focus:ring-2 focus:ring-offset-1 ${
-                    errors.confirmPassword && touched.confirmPassword ? "border-red-500 focus:ring-red-500" : "focus:ring-blue-500"
+                    errors.confirmPassword && touched.confirmPassword
+                      ? "border-red-500 focus:ring-red-500"
+                      : "focus:ring-blue-500"
                   }`}
                   required
                 />
@@ -100,7 +127,11 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ onSubmit }
                   className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
-                  {showConfirmPassword ? <EyeOff className="h-4 w-4 text-muted-foreground" /> : <Eye className="h-4 w-4 text-muted-foreground" />}
+                  {showConfirmPassword ? (
+                    <EyeOff className="h-4 w-4 text-muted-foreground" />
+                  ) : (
+                    <Eye className="h-4 w-4 text-muted-foreground" />
+                  )}
                 </Button>
               </div>
               {errors.confirmPassword && touched.confirmPassword && (
@@ -109,7 +140,7 @@ export const ResetPasswordForm: React.FC<ResetPasswordFormProps> = ({ onSubmit }
             </div>
 
             <Button type="submit" className="w-full">
-              Reset Password
+              {isLoading ? <Spinner /> : "Reset Password"}
             </Button>
           </Form>
         )}

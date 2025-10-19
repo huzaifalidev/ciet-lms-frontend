@@ -1,83 +1,111 @@
-"use client"
+"use client";
+export const dynamic = "force-dynamic";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { coursesCatalog } from "@/components/data/courses";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
+import { useToast } from "@/hooks/use-toast";
+import { ArrowLeft } from "lucide-react";
 
-import type React from "react"
+// ✅ Server Component with searchParams
+export default function CheckoutPage({
+  searchParams,
+}: {
+  searchParams: { ids?: string };
+}) {
+  const idsParam = searchParams?.ids || "";
+  const selectedIds = idsParam
+    .split(",")
+    .map((x) => Number.parseInt(x, 10))
+    .filter((n) => !Number.isNaN(n));
 
-import { useMemo, useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
-import { coursesCatalog } from "@/components/data/courses"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
-import { Badge } from "@/components/ui/badge"
-import { useToast } from "@/hooks/use-toast"
-import { ArrowLeft } from "lucide-react"
+  const selectedCourses = coursesCatalog.filter((c) =>
+    selectedIds.includes(c.id)
+  );
 
-export default function CheckoutPage() {
-  const router = useRouter()
-  const params = useSearchParams()
-  const { toast } = useToast()
+  const subtotal = selectedCourses.reduce((sum, c) => sum + c.price, 0);
 
-  const idsParam = params.get("ids") || ""
-  const selectedIds = useMemo(
-    () =>
-      idsParam
-        .split(",")
-        .map((x) => Number.parseInt(x, 10))
-        .filter((n) => !Number.isNaN(n)),
-    [idsParam],
-  )
+  return (
+    <CheckoutClient selectedCourses={selectedCourses} subtotal={subtotal} />
+  );
+}
 
-  const selectedCourses = useMemo(() => coursesCatalog.filter((c) => selectedIds.includes(c.id)), [selectedIds])
+// ✅ Client component for form logic
+function CheckoutClient({
+  selectedCourses,
+  subtotal,
+}: {
+  selectedCourses: typeof coursesCatalog;
+  subtotal: number;
+}) {
+  "use client";
 
-  const subtotal = useMemo(() => selectedCourses.reduce((sum, c) => sum + c.price, 0), [selectedCourses])
+  const router = useRouter();
+  const { toast } = useToast();
 
-  // Simple, local form state (demo only)
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [cardNumber, setCardNumber] = useState("")
-  const [expiry, setExpiry] = useState("")
-  const [cvc, setCvc] = useState("")
-  const [zip, setZip] = useState("")
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [cardNumber, setCardNumber] = useState("");
+  const [expiry, setExpiry] = useState("");
+  const [cvc, setCvc] = useState("");
+  const [zip, setZip] = useState("");
 
   const onPay = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     if (!selectedCourses.length) {
       toast({
         title: "No courses selected",
         description: "Please go back and select courses before checking out.",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
     if (!name || !email || !cardNumber || !expiry || !cvc) {
       toast({
         title: "Missing details",
         description: "Please fill in all required fields.",
         variant: "destructive",
-      })
-      return
+      });
+      return;
     }
-    // Demo success
+
     toast({
       title: "Payment successful (demo)",
       description: `Enrolled in ${selectedCourses.length} course${
         selectedCourses.length > 1 ? "s" : ""
       }. Total charged: $${subtotal}.`,
-    })
-    // Navigate to a confirmation or dashboard
-    setTimeout(() => router.push("/dashboard"), 1200)
-  }
+    });
+
+    setTimeout(() => router.push("/dashboard"), 1200);
+  };
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-balance">Checkout</h1>
-          <p className="text-muted-foreground">Enter your card details to complete your course registration.</p>
+          <h1 className="text-3xl font-bold tracking-tight text-balance">
+            Checkout
+          </h1>
+          <p className="text-muted-foreground">
+            Enter your card details to complete your course registration.
+          </p>
         </div>
-        <Button variant="outline" onClick={() => router.back()} className="gap-2">
+        <Button
+          variant="outline"
+          onClick={() => router.back()}
+          className="gap-2"
+        >
           <ArrowLeft className="h-4 w-4" />
           Back
         </Button>
@@ -89,7 +117,8 @@ export default function CheckoutPage() {
           <CardHeader>
             <CardTitle>Card details</CardTitle>
             <CardDescription>
-              All transactions are processed securely. This is a demo form—no real charge.
+              All transactions are processed securely. This is a demo form—no
+              real charge.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -154,7 +183,12 @@ export default function CheckoutPage() {
                 </div>
                 <div className="grid gap-2">
                   <Label htmlFor="zip">ZIP / Postal code</Label>
-                  <Input id="zip" placeholder="10001" value={zip} onChange={(e) => setZip(e.target.value)} />
+                  <Input
+                    id="zip"
+                    placeholder="10001"
+                    value={zip}
+                    onChange={(e) => setZip(e.target.value)}
+                  />
                 </div>
               </div>
 
@@ -178,12 +212,17 @@ export default function CheckoutPage() {
           </CardHeader>
           <CardContent className="space-y-4">
             {selectedCourses.length === 0 ? (
-              <div className="text-sm text-muted-foreground">No courses selected.</div>
+              <div className="text-sm text-muted-foreground">
+                No courses selected.
+              </div>
             ) : (
               <>
                 <div className="space-y-3">
                   {selectedCourses.map((c) => (
-                    <div key={c.id} className="flex items-start justify-between">
+                    <div
+                      key={c.id}
+                      className="flex items-start justify-between"
+                    >
                       <div>
                         <div className="font-medium">{c.title}</div>
                         <div className="text-xs text-muted-foreground">
@@ -200,7 +239,9 @@ export default function CheckoutPage() {
                   <div className="font-medium">${subtotal}</div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <div className="text-sm text-muted-foreground">Processing</div>
+                  <div className="text-sm text-muted-foreground">
+                    Processing
+                  </div>
                   <div className="font-medium">$0</div>
                 </div>
                 <Separator />
@@ -214,5 +255,5 @@ export default function CheckoutPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }

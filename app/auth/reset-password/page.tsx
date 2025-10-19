@@ -11,15 +11,9 @@ import Link from "next/link";
 
 export default function ResetPasswordPage() {
   const [isReset, setIsReset] = useState(false);
-
-  const handleReset = (values: { password: string; confirmPassword: string }) => {
-    console.log("Password reset submitted:", values);
-    setIsReset(true);
-  };
-
   if (isReset) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-4">
+      <div className="min-h-screen flex items-center justify-center dark:bg-black p-4">
         <div className="absolute top-4 right-4">
           <ThemeToggle />
         </div>
@@ -40,8 +34,13 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 p-4">
+    <ThemeProvider
+      attribute="class"
+      defaultTheme="system"
+      enableSystem
+      disableTransitionOnChange
+    >
+      <div className="min-h-screen flex items-center justify-center dark:bg-black p-4">
         <div className="absolute top-4 right-4">
           <ThemeToggle />
         </div>
@@ -52,7 +51,7 @@ export default function ResetPasswordPage() {
             description="Enter your new password below"
           />
 
-          <ResetPasswordForm onSubmit={handleReset} />
+          <ResetPasswordForm />
         </Card>
       </div>
     </ThemeProvider>

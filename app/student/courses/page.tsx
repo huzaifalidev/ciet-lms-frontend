@@ -39,7 +39,7 @@ export default function CoursesCatalogPage() {
   const goCheckout = () => {
     if (!selected.length) return
     const ids = selected.join(",")
-    router.push(`/checkout?ids=${encodeURIComponent(ids)}`)
+    router.push(`/student/courses/checkout?ids=${encodeURIComponent(ids)}`)
   }
 
   return (
