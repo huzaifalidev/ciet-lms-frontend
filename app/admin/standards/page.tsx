@@ -174,22 +174,22 @@ export default function StandardsPage() {
           <h1 className="text-3xl font-bold tracking-tight text-pretty">
             Standards
           </h1>
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
-                <BreadcrumbSeparator />
-              </BreadcrumbItem>
-              <BreadcrumbItem>
-                <BreadcrumbLink href="/dashboard/standards">
-                  Standards
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-          <p className="text-muted-foreground">
-            Manage Standards.
-          </p>
+          <div className="text-muted-foreground flex items-center gap-2">
+            <Breadcrumb>
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                  <BreadcrumbSeparator />
+                </BreadcrumbItem>
+                <BreadcrumbItem>
+                  <BreadcrumbLink href="/dashboard/standards">
+                    Standards
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+              </BreadcrumbList>
+            </Breadcrumb>
+          </div>
+          <p className="text-muted-foreground">Manage Standards.</p>
         </div>
 
         {/* Create Standard Drawer */}
@@ -200,7 +200,7 @@ export default function StandardsPage() {
         >
           <DrawerTrigger asChild>
             <Button>
-              <Plus className="mr-2 h-4 w-4" />
+              <Plus className="h-4 w-4" />
               Create Standard
             </Button>
           </DrawerTrigger>

@@ -135,7 +135,7 @@ function MobileSidebar({ items }: Pick<SidebarProps, "items">) {
             <div className="flex items-center gap-2">
               <img src="/logo.png" alt="Logo" className="h-8 w-8" />
               <div className="flex flex-col">
-                <span className="text-lg font-bold uppercase">CIET School</span>
+                <span className="text-lg font-bold">CIET School</span>
                 <span className="text-xs text-sidebar-foreground/70">
                   Learning Management System
                 </span>

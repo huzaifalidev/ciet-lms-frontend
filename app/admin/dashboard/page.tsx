@@ -115,7 +115,7 @@ export default function DashboardPage() {
       </div>
 
       {/* Charts Section */}
-      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2">
+      <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
         {/* Course Progress Card */}
         <Card className="w-full">
           <CardHeader>
@@ -124,7 +124,7 @@ export default function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="flex flex-col items-center justify-center space-y-4">
-              <div className="w-full h-[220px] sm:h-[250px]">
+              <div className="w-full h-[200px] sm:h-[240px] md:h-[260px] lg:h-[280px]">
                 <ChartContainer
                   id="courses-gauge"
                   config={{
@@ -156,7 +156,8 @@ export default function DashboardPage() {
                   </ResponsiveContainer>
                 </ChartContainer>
               </div>
-              <div className="flex flex-wrap items-center justify-center gap-4 text-sm">
+
+              <div className="flex flex-wrap items-center justify-center gap-3 text-sm">
                 <div className="flex items-center gap-2">
                   <div className="h-3 w-3 rounded-full bg-[#4f46e5]" />
                   <span className="text-muted-foreground">
@@ -183,7 +184,7 @@ export default function DashboardPage() {
             <CardDescription>Monthly student enrollment trend</CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="w-full h-[220px] sm:h-[250px]">
+            <div className="w-full h-[200px] sm:h-[240px] md:h-[260px] lg:h-[280px]">
               <ChartContainer
                 id="students-line"
                 config={{
