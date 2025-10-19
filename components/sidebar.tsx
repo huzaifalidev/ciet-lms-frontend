@@ -123,7 +123,7 @@ function MobileSidebar({ items }: Pick<SidebarProps, "items">) {
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden fixed top-4 left-2 z-200"
+          className={`${open ? "z-50" : "z-200"} md:hidden fixed top-4 left-2 `}
           aria-label="Toggle menu"
         >
           <Menu className="h-5 w-5" />
@@ -134,7 +134,12 @@ function MobileSidebar({ items }: Pick<SidebarProps, "items">) {
           <div className="flex h-16 items-center border-b px-4">
             <div className="flex items-center gap-2">
               <img src="/logo.png" alt="Logo" className="h-8 w-8" />
-              <span className="text-lg font-bold uppercase">CIET School</span>
+              <div className="flex flex-col">
+                <span className="text-lg font-bold uppercase">CIET School</span>
+                <span className="text-xs text-sidebar-foreground/70">
+                  Learning Management System
+                </span>
+              </div>
             </div>
           </div>
 
