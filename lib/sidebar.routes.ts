@@ -6,6 +6,6 @@ export const adminSidebarItems = [
 ];
 
 export const studentSidebarItems = [
-  { title: "Dashboard", href: "/student/dashboard", icon: "home" },
+  // { title: "Dashboard", href: "/student/dashboard", icon: "home" },
   { title: "Courses Registration", href: "/student/courses", icon: "book" },
 ];

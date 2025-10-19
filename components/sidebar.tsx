@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -29,13 +29,24 @@ interface SidebarProps {
   items: {
     title: string;
     href: string;
-    icon: string; // string that maps to iconMap
+    icon: string;
   }[];
 }
 
 function DesktopSidebar({ className, items }: SidebarProps) {
   const [collapsed, setCollapsed] = useState(false);
   const pathname = usePathname();
+
+  // ✅ Load sidebar state from localStorage on mount
+  useEffect(() => {
+    const savedState = localStorage.getItem("sidebar-collapsed");
+    if (savedState === "true") setCollapsed(true);
+  }, []);
+
+  // ✅ Save sidebar state whenever it changes
+  useEffect(() => {
+    localStorage.setItem("sidebar-collapsed", collapsed.toString());
+  }, [collapsed]);
 
   return (
     <div
@@ -46,10 +57,11 @@ function DesktopSidebar({ className, items }: SidebarProps) {
       )}
     >
       <div className="flex items-center justify-between h-16 border-b px-4">
-        <div className="flex items-center gap-2">
-          <img src="/logo.png" alt="Logo" className="h-8 w-8" />
-        </div>
-
+        {!collapsed && (
+          <div className="flex items-center gap-2">
+            <img src="/logo.png" alt="Logo" className="h-8 w-8" />
+          </div>
+        )}
         <Button
           variant="ghost"
           size="sm"
@@ -71,7 +83,6 @@ function DesktopSidebar({ className, items }: SidebarProps) {
         </Button>
       </div>
 
-      {/* Navigation */}
       <ScrollArea className="flex-1 px-3 py-4 mt-2">
         <nav className="space-y-2">
           {items.map((item) => {
@@ -112,7 +123,7 @@ function MobileSidebar({ items }: Pick<SidebarProps, "items">) {
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden fixed top-4 left-2 z-40"
+          className="md:hidden fixed top-4 left-2 z-50"
           aria-label="Toggle menu"
         >
           <Menu className="h-5 w-5" />
@@ -120,7 +131,6 @@ function MobileSidebar({ items }: Pick<SidebarProps, "items">) {
       </SheetTrigger>
       <SheetContent side="left" className="w-64 p-0">
         <div className="flex flex-col h-full">
-          {/* Header */}
           <div className="flex h-16 items-center border-b px-4">
             <div className="flex items-center gap-2">
               <img src="/logo.png" alt="Logo" className="h-8 w-8" />
@@ -128,7 +138,6 @@ function MobileSidebar({ items }: Pick<SidebarProps, "items">) {
             </div>
           </div>
 
-          {/* Navigation */}
           <ScrollArea className="flex-1 px-3 py-4 mt-2">
             <nav className="space-y-2">
               {items.map((item) => {

@@ -10,42 +10,65 @@ export type Course = {
 export const coursesCatalog: Course[] = [
   {
     id: 1,
-    title: "React Fundamentals",
-    description: "Learn the basics of React development",
-    price: 149,
-    durationWeeks: 8,
-    level: "Beginner",
+    title: "O Level Computer Science (2210)",
+    description:
+      "Comprehensive coverage of the Cambridge O Level Computer Science syllabus with practical coding exercises in Python.",
+    price: 180,
+    durationWeeks: 10,
+    level: "Intermediate",
   },
   {
     id: 2,
-    title: "JavaScript Basics",
-    description: "Introduction to JavaScript programming",
-    price: 129,
-    durationWeeks: 6,
-    level: "Beginner",
+    title: "AS Level Mathematics (9709)",
+    description:
+      "Master the core concepts of Pure Mathematics, Mechanics, and Statistics as per the CAIE AS Level curriculum.",
+    price: 210,
+    durationWeeks: 12,
+    level: "Advanced",
   },
   {
     id: 3,
-    title: "Advanced CSS",
-    description: "Master advanced CSS techniques",
-    price: 119,
-    durationWeeks: 5,
-    level: "Intermediate",
-  },
-  {
-    id: 4,
-    title: "Python for Beginners",
-    description: "Start your journey with Python",
-    price: 139,
+    title: "O Level Islamiat (2058)",
+    description:
+      "Deep dive into Islamic history, teachings, and contemporary issues aligned with the Pakistan Studies O Level syllabus.",
+    price: 150,
     durationWeeks: 8,
     level: "Beginner",
   },
   {
+    id: 4,
+    title: "A Level Business Studies (9609)",
+    description:
+      "Learn the key principles of business management, marketing, and finance in line with the A Level CAIE syllabus.",
+    price: 220,
+    durationWeeks: 10,
+    level: "Advanced",
+  },
+  {
     id: 5,
-    title: "Database Design",
-    description: "Learn database design principles",
-    price: 159,
-    durationWeeks: 7,
+    title: "O Level Pakistan Studies (2059)",
+    description:
+      "Understand Pakistan’s history, geography, and development — perfectly designed for O Level students.",
+    price: 160,
+    durationWeeks: 9,
     level: "Intermediate",
+  },
+  {
+    id: 6,
+    title: "O Level English Language (1123)",
+    description:
+      "Build strong reading, writing, and comprehension skills aligned with the Cambridge O Level English syllabus.",
+    price: 175,
+    durationWeeks: 8,
+    level: "Beginner",
+  },
+  {
+    id: 7,
+    title: "A Level Economics (9708)",
+    description:
+      "Study microeconomics and macroeconomics concepts following the CAIE A Level pattern with real-world examples from Pakistan.",
+    price: 230,
+    durationWeeks: 10,
+    level: "Advanced",
   },
 ]

@@ -75,7 +75,7 @@ export const LoginForm: React.FC = () => {
 
         // Redirect based on role
         if (user.role === "student") {
-          router.push("/student/dashboard");
+          router.push("/student/courses");
         } else if (user.role === "admin") {
           router.push("/admin/dashboard");
         }
