@@ -115,41 +115,48 @@ export default function DashboardPage() {
       </div>
 
       {/* Charts Section */}
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-1 md:grid-cols-2">
         {/* Course Progress Card */}
-        <Card>
+        <Card className="w-full">
           <CardHeader>
             <CardTitle>Course Progress</CardTitle>
             <CardDescription>Your course completion overview</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col items-center justify-center space-y-4">
-              <ChartContainer
-                id="courses-gauge"
-                config={{
-                  completed: { color: "#4f46e5", label: "Completed" },
-                  remaining: { color: "#e5e7eb", label: "Remaining" },
-                }}
-                className="h-[200px] w-full"
-              >
-                <PieChart>
-                  <Pie
-                    data={courseData}
-                    dataKey="value"
-                    innerRadius={60}
-                    outerRadius={90}
-                    startAngle={180}
-                    endAngle={0}
-                    paddingAngle={2}
-                  >
-                    {courseData.map((entry, index) => (
-                      <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-                  <ChartTooltip />
-                </PieChart>
-              </ChartContainer>
-              <div className="flex items-center justify-center gap-6 text-sm">
+              <div className="w-full h-[220px] sm:h-[250px]">
+                <ChartContainer
+                  id="courses-gauge"
+                  config={{
+                    completed: { color: "#4f46e5", label: "Completed" },
+                    remaining: { color: "#e5e7eb", label: "Remaining" },
+                  }}
+                  className="w-full h-full"
+                >
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={courseData}
+                        dataKey="value"
+                        innerRadius="60%"
+                        outerRadius="80%"
+                        startAngle={180}
+                        endAngle={0}
+                        paddingAngle={2}
+                      >
+                        {courseData.map((entry, index) => (
+                          <Cell
+                            key={index}
+                            fill={COLORS[index % COLORS.length]}
+                          />
+                        ))}
+                      </Pie>
+                      <ChartTooltip />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </ChartContainer>
+              </div>
+              <div className="flex flex-wrap items-center justify-center gap-4 text-sm">
                 <div className="flex items-center gap-2">
                   <div className="h-3 w-3 rounded-full bg-[#4f46e5]" />
                   <span className="text-muted-foreground">
@@ -170,40 +177,45 @@ export default function DashboardPage() {
         </Card>
 
         {/* Student Growth Card */}
-        <Card>
+        <Card className="w-full">
           <CardHeader>
             <CardTitle>Student Growth</CardTitle>
             <CardDescription>Monthly student enrollment trend</CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer
-              id="students-line"
-              config={{
-                students: { color: "#4f46e5", label: "Students" },
-              }}
-              className="h-[200px] w-full"
-            >
-              <LineChart data={studentData}>
-                <XAxis
-                  dataKey="month"
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={false}
-                />
-                <YAxis fontSize={12} tickLine={false} axisLine={false} />
-                <Line
-                  type="monotone"
-                  dataKey="students"
-                  stroke="#4f46e5"
-                  strokeWidth={2}
-                  dot={{ r: 4, fill: "#4f46e5" }}
-                />
-                <ChartTooltip />
-              </LineChart>
-            </ChartContainer>
+            <div className="w-full h-[220px] sm:h-[250px]">
+              <ChartContainer
+                id="students-line"
+                config={{
+                  students: { color: "#4f46e5", label: "Students" },
+                }}
+                className="w-full h-full"
+              >
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={studentData}>
+                    <XAxis
+                      dataKey="month"
+                      fontSize={12}
+                      tickLine={false}
+                      axisLine={false}
+                    />
+                    <YAxis fontSize={12} tickLine={false} axisLine={false} />
+                    <Line
+                      type="monotone"
+                      dataKey="students"
+                      stroke="#4f46e5"
+                      strokeWidth={2}
+                      dot={{ r: 4, fill: "#4f46e5" }}
+                    />
+                    <ChartTooltip />
+                  </LineChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            </div>
           </CardContent>
         </Card>
       </div>
+
       {/* Recent Activity */}
       {/* <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-7">
         <Card className="col-span-4">

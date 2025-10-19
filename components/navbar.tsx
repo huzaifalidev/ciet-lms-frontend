@@ -24,11 +24,13 @@ export function Navbar({ className }: NavbarProps) {
   return (
     <header className="flex h-16 items-center justify-between border-b bg-sidebar px-6">
       <div className="flex items-center">
-        <div className="flex flex-col">
-          <span className="text-lg font-bold">CIET School</span>
-          <span className="text-xs text-sidebar-foreground/70">
-            Learning Management System
-          </span>
+        <div className="w-90 flex flex-col items-start text-center sm:items-start sm:text-left max-sm:items-center max-sm:text-center">
+          <div>
+            <span className="block text-lg font-bold">CIET School</span>
+            <span className="block text-xs text-sidebar-foreground/70">
+              Learning Management System
+            </span>
+          </div>
         </div>
       </div>
       <div className="flex items-center gap-4">
