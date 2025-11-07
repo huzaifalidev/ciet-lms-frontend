@@ -35,13 +35,11 @@ export const RegisterForm: React.FC = () => {
   const router = useRouter();
 
   const initialValues: RegisterFormValues = {
-    firstName: "Huzaifa",
-    lastName: "Ali",
-    email: "huzaifa@example.com",
+    firstName: "",
+    lastName: "",
+    email: "",
     password: "password123",
   };
-
-  // --- API handler ---
   const handleSubmit = async (
     values: RegisterFormValues,
     { setSubmitting }: { setSubmitting: (isSubmitting: boolean) => void }
@@ -53,7 +51,6 @@ export const RegisterForm: React.FC = () => {
         email: values.email,
         password: values.password,
       });
-      console.log("Registration successful:", res.data);
       toast.success(
         res.data.msg || "Registration successful! Redirecting to login..."
       );

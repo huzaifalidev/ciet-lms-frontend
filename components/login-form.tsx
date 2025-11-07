@@ -34,55 +34,27 @@ export const LoginForm: React.FC = () => {
 
   const handleSubmit = async (values: LoginFormValues) => {
     dispatch(startLoading());
-
     try {
-      // Simulate backend delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // Mock valid credentials
-      const validUsers = {
-        "admin@gmail.com": {
-          role: "admin",
-          accessToken: "mock_admin_token",
-          refreshToken: "mock_admin_refresh",
-        },
-        "student@gmail.com": {
-          role: "student",
-          accessToken: "mock_student_token",
-          refreshToken: "mock_student_refresh",
-        },
-      };
-
-      // Check if email exists and password matches
-      const user = validUsers[values.email];
-
-      if (!user || values.password !== "12345678") {
-        toast.error("Invalid email or password");
-        return;
-      }
-
-      // Simulate a mock backend response
-      const res = {
-        status: 200,
-        data: { user },
-      };
+      const res = await axios.post(`${config.API_URL}/auth/login`, {
+        email: values.email,
+        password: values.password,
+      });
 
       if (res.status === 200) {
-        window.localStorage.setItem("accessToken", user.accessToken);
-        window.localStorage.setItem("refreshToken", user.refreshToken);
-
-        toast.success("Login successful!");
-
-        // Redirect based on role
-        if (user.role === "student") {
+        window.localStorage.setItem("accessToken", res.data.user.accessToken);
+        window.localStorage.setItem("refreshToken", res.data.user.refreshToken);
+        toast.success(res.data.msg || "Login successful!");
+        if (res.data.user.role === "STUDENT") {
           router.push("/student/courses");
-        } else if (user.role === "admin") {
+        } else if (res.data.user.role === "ADMIN") {
           router.push("/admin/dashboard");
         }
       }
-    } catch (error) {
+    } catch (error : any) {
       console.error("Login failed", error);
-      toast.error("Something went wrong. Please try again.");
+      toast.error(
+        error.response.data.msg || "Something went wrong. Please try again."
+      );
     } finally {
       dispatch(stopLoading());
     }

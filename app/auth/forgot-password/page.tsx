@@ -16,6 +16,8 @@ import { AuthCardHeader } from "@/components/auth-card-header";
 import { Spinner } from "@/components/ui/spinner";
 import { useAppDispatch, useAppSelector } from "@/redux/store/store";
 import { startLoading, stopLoading } from "@/redux/slices/loading.slice";
+import { config } from "@/config/config";
+import axios from "axios";
 
 function ForgotPasswordContent() {
   const [email, setEmail] = useState("");
@@ -24,30 +26,20 @@ function ForgotPasswordContent() {
   const { isLoading } = useAppSelector((state) => state.loading);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault(); // ✅ Prevent page reload first
+    e.preventDefault();
     dispatch(startLoading());
-
     try {
-      // Simulate backend delay
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // Mock valid users
-      const validUsers = ["admin@gmail.com", "student@gmail.com"];
-
-      if (!validUsers.includes(email.trim())) {
-        toast.error("User does not exist.");
-        return;
-      }
-
-      // Simulate success response
-      toast.success(
-        "If this email is registered, you will receive a password reset link shortly."
-      );
-
-      console.log("Forgot password request:", { email });
+      const res = await axios.post(`${config.API_URL}/auth/forgot-password`, {
+        email,
+      });
       setIsSubmitted(true);
-    } catch (error) {
-      toast.error("Something went wrong. Please try again.");
+      toast.success(
+        res.data.msg || "Password reset link sent! Please check your email."
+      );
+    } catch (error: any) {
+      toast.error(
+        error.response.data.msg || "Something went wrong. Please try again."
+      );
       console.error("Forgot password error:", error);
     } finally {
       dispatch(stopLoading());
