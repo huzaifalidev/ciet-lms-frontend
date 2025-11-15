@@ -22,9 +22,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAppDispatch, useAppSelector } from "@/redux/store/store";
 import { startLoading, stopLoading } from "@/redux/slices/loading.slice";
 import { DashboardSkeleton } from "@/components/skelton-dashboard";
-
 import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
-
+import { logout } from "@/redux/slices/user.slice";
 import {
   LineChart,
   Line,
@@ -53,7 +52,7 @@ const COLORS = ["#4f46e5", "#e5e7eb"]; // primary + background for gauge
 export default function DashboardPage() {
   const dispatch = useAppDispatch();
   const { isLoading } = useAppSelector((state) => state.loading);
-
+  const user  = useAppSelector((state) => state.user.data);
   useEffect(() => {
     dispatch(startLoading());
   }, []);
@@ -73,7 +72,7 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            Welcome back, John!
+            Welcome back, {user.firstName}!
           </h1>
           <p className="text-muted-foreground">
             Here's what's happening with your courses today.

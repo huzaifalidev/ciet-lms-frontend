@@ -12,11 +12,15 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { LogOut, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useAppDispatch, useAppSelector } from "@/redux/store/store";
+import { logout } from "@/redux/slices/user.slice";
 import { useRouter } from "next/navigation";
 
 export function Navbar() {
+  const dispatch = useAppDispatch();
   const router = useRouter();
   const Theme = useTheme();
+  const user = useAppSelector((state) => state.user.data);
 
   return (
     <header className="sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-sidebar px-4 sm:px-6">
@@ -50,9 +54,9 @@ export function Navbar() {
           >
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">John Doe</p>
+                <p className="text-sm font-medium leading-none">{user?.firstName} {user?.lastName}</p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  john.doe@cietschool.edu
+                  {user?.email}
                 </p>
               </div>
             </DropdownMenuLabel>
@@ -75,6 +79,9 @@ export function Navbar() {
 
             <DropdownMenuItem
               onClick={() => {
+                localStorage.removeItem("accessToken");
+                localStorage.removeItem("refreshToken");
+                dispatch(logout());
                 router.push("/auth/signin");
               }}
             >

@@ -1,12 +1,13 @@
-'use client'
-
 import { configureStore } from '@reduxjs/toolkit'
 import { useDispatch, useSelector, TypedUseSelectorHook } from 'react-redux'
 import { loadingReducer } from '../slices/loading.slice'
+import { userReducer } from '../slices/user.slice'
+
 
 export const store = configureStore({
   reducer: {
     loading: loadingReducer,
+    user: userReducer,
   },
 })
 

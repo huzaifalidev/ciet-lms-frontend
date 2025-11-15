@@ -61,7 +61,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 
 type Student = {
   id: number;
@@ -177,6 +183,7 @@ export default function StudentsPage() {
     password: "",
     studentPhoneNumber: "",
     parentPhoneNumber: "",
+    fees: "",
   };
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -261,6 +268,7 @@ export default function StudentsPage() {
       password: s.password,
       studentPhoneNumber: s.studentPhoneNumber || "",
       parentPhoneNumber: s.parentPhoneNumber || "",
+      fees: s.fees || "",
     });
     setEditOpen(true);
   };
@@ -309,7 +317,9 @@ export default function StudentsPage() {
             <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
-                  <BreadcrumbLink href="/admin/dashboard">Dashboard</BreadcrumbLink>
+                  <BreadcrumbLink href="/admin/dashboard">
+                    Dashboard
+                  </BreadcrumbLink>
                   <BreadcrumbSeparator />
                 </BreadcrumbItem>
                 <BreadcrumbItem>
@@ -622,6 +632,23 @@ export default function StudentsPage() {
                     />
                   </div>
                 </div>
+                <div>
+                  <Label className="mb-4" htmlFor="fees">
+                    Fees
+                  </Label>
+                  <div className="relative">
+                    <Users className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                    <Input
+                      id="fees"
+                      placeholder="Enter fees amount"
+                      className="pl-9"
+                      value={form.fees}
+                      onChange={(e) =>
+                        setForm({ ...form, fees: e.target.value })
+                      }
+                    />
+                  </div>
+                </div>
               </div>
 
               {/* Footer */}
@@ -720,6 +747,14 @@ export default function StudentsPage() {
                   onChange={(e) =>
                     setForm({ ...form, parentPhoneNumber: e.target.value })
                   }
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="edit-fees">Fees</Label>
+                <Input
+                  id="edit-fees"
+                  value={form.fees}
+                  onChange={(e) => setForm({ ...form, fees: e.target.value })}
                 />
               </div>
               <div className="md:col-span-2 flex items-center justify-end gap-2 pt-2">

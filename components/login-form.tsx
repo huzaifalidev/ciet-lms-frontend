@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { Spinner } from "@/components/ui/spinner";
 import { useAppDispatch, useAppSelector } from "@/redux/store/store";
 import { startLoading, stopLoading } from "@/redux/slices/loading.slice";
+import { setUser } from "@/redux/slices/user.slice";
 
 interface LoginFormValues {
   email: string;
@@ -41,6 +42,7 @@ export const LoginForm: React.FC = () => {
       });
 
       if (res.status === 200) {
+        dispatch(setUser(res.data.user));
         window.localStorage.setItem("accessToken", res.data.user.accessToken);
         window.localStorage.setItem("refreshToken", res.data.user.refreshToken);
         toast.success(res.data.msg || "Login successful!");
