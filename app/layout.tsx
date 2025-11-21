@@ -7,6 +7,10 @@ import "./globals.css";
 import { ReduxProvider } from "@/redux/providers/redux-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
+import { use, useEffect } from "react";
+import { initializeAuth } from "@/lib/initializeAuth";
+import AuthInitializer from "@/components/AuthInitializer"; 
+import { useAppDispatch } from "@/redux/store/store";
 const inter = Inter({
   subsets: ["latin"],
   variable: "--font-inter",
@@ -20,7 +24,6 @@ export const metadata: Metadata = {
     icon: "/logo.png",
   },
 };
-
 export default function RootLayout({
   children,
 }: {
@@ -36,6 +39,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ReduxProvider>
+            <AuthInitializer>
             <TooltipProvider delayDuration={200}>
               <Analytics />
               <Toaster
@@ -53,6 +57,7 @@ export default function RootLayout({
               />
               {children}
             </TooltipProvider>
+            </AuthInitializer>
           </ReduxProvider>
         </ThemeProvider>
       </body>

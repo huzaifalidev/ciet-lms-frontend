@@ -15,17 +15,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { fetchCurrentUser } from "@/lib/fetch.currentUser";
-import { useAppDispatch } from "@/redux/store/store";
 
 export default function CoursesCatalogPage() {
   const router = useRouter();
   const [query, setQuery] = useState("");
-  const dispatch = useAppDispatch();
   const [selected, setSelected] = useState<number[]>([]);
-  useEffect(() => {
-    fetchCurrentUser(dispatch);
-  }, []);
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
     if (!q) return coursesCatalog;

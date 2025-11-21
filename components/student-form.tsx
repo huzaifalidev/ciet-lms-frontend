@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { User, Mail, Lock, Phone, DollarSign } from "lucide-react";
@@ -19,7 +19,7 @@ export type StudentFormData = {
 type StudentFormProps = {
   initialData?: StudentFormData;
   onSubmit: (data: StudentFormData) => void;
-  formId?: string; // Optional form ID for requestSubmit
+  formId?: string;
 };
 
 export default function StudentForm({
@@ -57,18 +57,21 @@ export default function StudentForm({
             <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
               id="firstName"
+              placeholder="Enter student's first name"
               value={form.firstName}
               onChange={(e) => setForm({ ...form, firstName: e.target.value })}
               className="pl-9"
             />
           </div>
         </div>
+
         <div>
           <Label htmlFor="lastName">Last Name</Label>
           <div className="relative mt-2">
             <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
               id="lastName"
+              placeholder="Enter student's last name"
               value={form.lastName}
               onChange={(e) => setForm({ ...form, lastName: e.target.value })}
               className="pl-9"
@@ -86,12 +89,14 @@ export default function StudentForm({
             <Input
               id="email"
               type="email"
+              placeholder="Enter student's email address"
               value={form.email}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               className="pl-9"
             />
           </div>
         </div>
+
         <div className="md:col-span-2">
           <Label htmlFor="password">Password</Label>
           <div className="relative mt-2">
@@ -99,6 +104,7 @@ export default function StudentForm({
             <Input
               id="password"
               type="password"
+              placeholder="Create a password (for student login)"
               value={form.password}
               onChange={(e) => setForm({ ...form, password: e.target.value })}
               className="pl-9"
@@ -115,6 +121,7 @@ export default function StudentForm({
             <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
               id="phoneNumber"
+              placeholder="Enter student's phone number"
               value={form.phoneNumber}
               onChange={(e) =>
                 setForm({ ...form, phoneNumber: e.target.value })
@@ -123,12 +130,14 @@ export default function StudentForm({
             />
           </div>
         </div>
+
         <div>
           <Label htmlFor="parentPhoneNumber">Parent Phone</Label>
           <div className="relative mt-2">
             <Phone className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
               id="parentPhoneNumber"
+              placeholder="Enter parent's phone number"
               value={form.parentPhoneNumber}
               onChange={(e) =>
                 setForm({ ...form, parentPhoneNumber: e.target.value })
@@ -137,12 +146,14 @@ export default function StudentForm({
             />
           </div>
         </div>
+
         <div>
           <Label htmlFor="fees">Fees</Label>
           <div className="relative mt-2">
             <DollarSign className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
               id="fees"
+              placeholder="Enter course fee (PKR)"
               value={form.fees}
               onChange={(e) => setForm({ ...form, fees: e.target.value })}
               className="pl-9"

@@ -79,7 +79,6 @@ export default function StudentsPage() {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [editingStudent, setEditingStudent] = useState<Student | null>(null);
   const [deletingStudent, setDeletingStudent] = useState<Student | null>(null);
-  console.log(students, "students");
   const fetchStudents = async () => {
     try {
       const res = await axios.get(`${config.API_URL}/student/get-all`);
@@ -101,14 +100,11 @@ export default function StudentsPage() {
       s.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "active":
-        return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
-      case "inactive":
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
-      default:
-        return "bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300";
+  const getStatusColor = (isActive?: boolean) => {
+    if (isActive === true) {
+      return "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300";
+    } else {
+      return "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300";
     }
   };
 
@@ -201,7 +197,7 @@ export default function StudentsPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {students.filter((s) => s.status === "active").length}
+              {students.filter((s) => s.isActive === true).length}
             </div>
           </CardContent>
         </Card>
@@ -254,10 +250,11 @@ export default function StudentsPage() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge className={getStatusColor(s.status || "")}>
-                      {s.status || "unknown"}
+                    <Badge className={getStatusColor(s.isActive)}>
+                      {s.isActive ? "Active" : "Inactive"}
                     </Badge>
                   </TableCell>
+
                   <TableCell className="text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger>
@@ -296,7 +293,7 @@ export default function StudentsPage() {
 
       {/* Create Drawer */}
       <Drawer open={createOpen} onOpenChange={setCreateOpen}>
-        <DrawerContent className="max-h-[90vh] flex flex-col">
+        <DrawerContent className="max-h-[90vh] flex flex-col bg-background">
           <DrawerHeader>
             <DrawerTitle>Add Student</DrawerTitle>
           </DrawerHeader>
@@ -324,7 +321,7 @@ export default function StudentsPage() {
 
       {/* Edit Drawer */}
       <Drawer open={editOpen} onOpenChange={setEditOpen}>
-        <DrawerContent className="max-h-[90vh] flex flex-col">
+        <DrawerContent className="max-h-[90vh] flex flex-col bg-background">
           <DrawerHeader>
             <DrawerTitle>Edit Student</DrawerTitle>
           </DrawerHeader>

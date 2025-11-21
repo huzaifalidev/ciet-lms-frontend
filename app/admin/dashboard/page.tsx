@@ -72,14 +72,14 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">
-            Welcome back, {user.firstName}!
+            Welcome back, {user?.firstName}!
           </h1>
           <p className="text-muted-foreground">
             Here's what's happening with your courses today.
           </p>
         </div>
         <Button>
-          <Calendar className="mr-2 h-4 w-4" />
+          <Calendar className="mr-2 h-4 w-4" /> 
           Schedule
         </Button>
       </div>
