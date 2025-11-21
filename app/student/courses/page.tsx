@@ -143,7 +143,7 @@ export default function CoursesCatalogPage() {
                 </div>
               </CardHeader>
               <CardContent className="flex items-center justify-between">
-                <div className="text-lg font-semibold">${course.price}</div>
+                <div className="text-lg font-semibold">RS. {course.price}</div>
                 <Button
                   variant={isSelected ? "secondary" : "default"}
                   onClick={() => toggle(course.id)}
@@ -163,37 +163,41 @@ export default function CoursesCatalogPage() {
       </div>
 
       {/* Selection Summary Bar */}
-      <Card className="sticky bottom-4 left-0 right-0 mx-auto max-w-4xl border-dashed">
-        <CardContent className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3">
-            <ShoppingCart className="h-5 w-5 text-muted-foreground" />
-            <div className="text-sm text-muted-foreground">
-              {selected.length > 0 ? (
-                <>
-                  {selected.length} course{selected.length > 1 ? "s" : ""}{" "}
-                  selected •{" "}
-                  <span className="font-medium text-foreground">${total}</span>{" "}
-                  total
-                </>
-              ) : (
-                <>No courses selected</>
-              )}
+      {selected.length > 0 && (
+        <Card className="sticky bottom-4 left-0 right-0 mx-auto max-w-4xl border-dashed">
+          <CardContent className="flex flex-col gap-3 py-4 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex items-center gap-3">
+              <ShoppingCart className="h-5 w-5 text-muted-foreground" />
+              <div className="text-sm text-muted-foreground">
+                {selected.length > 0 ? (
+                  <>
+                    {selected.length} course{selected.length > 1 ? "s" : ""}{" "}
+                    selected •{" "}
+                    <span className="font-medium text-foreground">
+                      RS. {total}
+                    </span>{" "}
+                    total
+                  </>
+                ) : (
+                  <>No courses selected</>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button
-              variant="outline"
-              onClick={clearSelection}
-              disabled={selected.length === 0}
-            >
-              Clear
-            </Button>
-            <Button onClick={goCheckout} disabled={selected.length === 0}>
-              Proceed to Checkout
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                onClick={clearSelection}
+                disabled={selected.length === 0}
+              >
+                Clear
+              </Button>
+              <Button onClick={goCheckout} disabled={selected.length === 0}>
+                Proceed to Checkout
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

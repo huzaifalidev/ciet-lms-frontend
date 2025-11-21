@@ -84,7 +84,7 @@ function CheckoutClient({
       title: "Payment successful (demo)",
       description: `Enrolled in ${selectedCourses.length} course${
         selectedCourses.length > 1 ? "s" : ""
-      }. Total charged: $${subtotal}.`,
+      }. Total charged: RS. ${subtotal}.`,
     });
 
     setTimeout(() => router.push("/dashboard"), 1200);
@@ -198,7 +198,7 @@ function CheckoutClient({
                 <div className="text-sm text-muted-foreground">
                   By clicking Pay, you agree to the CIET School LMS terms.
                 </div>
-                <Button type="submit">Pay ${subtotal}</Button>
+                <Button type="submit">Pay RS. {subtotal}</Button>
               </div>
             </form>
           </CardContent>
@@ -229,25 +229,25 @@ function CheckoutClient({
                           {c.level} • {c.durationWeeks} weeks
                         </div>
                       </div>
-                      <Badge variant="secondary">${c.price}</Badge>
+                      <Badge variant="secondary">RS. {c.price}</Badge>
                     </div>
                   ))}
                 </div>
                 <Separator />
                 <div className="flex items-center justify-between">
                   <div className="text-sm text-muted-foreground">Subtotal</div>
-                  <div className="font-medium">${subtotal}</div>
+                  <div className="font-medium">RS. {subtotal}</div>
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="text-sm text-muted-foreground">
                     Processing
                   </div>
-                  <div className="font-medium">$0</div>
+                  <div className="font-medium">RS. 0</div>
                 </div>
                 <Separator />
                 <div className="flex items-center justify-between">
                   <div className="text-sm">Total</div>
-                  <div className="text-lg font-semibold">${subtotal}</div>
+                  <div className="text-lg font-semibold">RS. {subtotal}</div>
                 </div>
               </>
             )}

@@ -13,7 +13,7 @@ export const coursesCatalog: Course[] = [
     title: "O Level Computer Science (2210)",
     description:
       "Comprehensive coverage of the Cambridge O Level Computer Science syllabus with practical coding exercises in Python.",
-    price: 180,
+    price: 18000, // PKR
     durationWeeks: 10,
     level: "Intermediate",
   },
@@ -22,7 +22,7 @@ export const coursesCatalog: Course[] = [
     title: "AS Level Mathematics (9709)",
     description:
       "Master the core concepts of Pure Mathematics, Mechanics, and Statistics as per the CAIE AS Level curriculum.",
-    price: 210,
+    price: 22000, // PKR
     durationWeeks: 12,
     level: "Advanced",
   },
@@ -31,7 +31,7 @@ export const coursesCatalog: Course[] = [
     title: "O Level Islamiat (2058)",
     description:
       "Deep dive into Islamic history, teachings, and contemporary issues aligned with the Pakistan Studies O Level syllabus.",
-    price: 150,
+    price: 12000, // PKR
     durationWeeks: 8,
     level: "Beginner",
   },
@@ -40,7 +40,7 @@ export const coursesCatalog: Course[] = [
     title: "A Level Business Studies (9609)",
     description:
       "Learn the key principles of business management, marketing, and finance in line with the A Level CAIE syllabus.",
-    price: 220,
+    price: 24000, // PKR
     durationWeeks: 10,
     level: "Advanced",
   },
@@ -49,7 +49,7 @@ export const coursesCatalog: Course[] = [
     title: "O Level Pakistan Studies (2059)",
     description:
       "Understand Pakistan’s history, geography, and development — perfectly designed for O Level students.",
-    price: 160,
+    price: 13000, // PKR
     durationWeeks: 9,
     level: "Intermediate",
   },
@@ -58,7 +58,7 @@ export const coursesCatalog: Course[] = [
     title: "O Level English Language (1123)",
     description:
       "Build strong reading, writing, and comprehension skills aligned with the Cambridge O Level English syllabus.",
-    price: 175,
+    price: 15000, // PKR
     durationWeeks: 8,
     level: "Beginner",
   },
@@ -67,8 +67,9 @@ export const coursesCatalog: Course[] = [
     title: "A Level Economics (9708)",
     description:
       "Study microeconomics and macroeconomics concepts following the CAIE A Level pattern with real-world examples from Pakistan.",
-    price: 230,
+    price: 25000, // PKR
     durationWeeks: 10,
     level: "Advanced",
   },
-]
+];
+
